@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-mongoose.Promise = global.Promise; 
+mongoose.Promise = global.Promise;
 
 // Loading schema
 const salesSchema= require("./models/salesSchema.js");
@@ -15,11 +15,11 @@ module.exports = function(mongoDBConnectionString){
         initialize: function(){
             return new Promise(function(resolve,reject){
                 let db = mongoose.createConnection(mongoDBConnectionString, {  useNewUrlParser: true,useUnifiedTopology: true });
-                
+
                 db.on('error', (err)=>{
                     reject(err);
                 });
-        
+
                 db.once('open', ()=>{
                     Sale = db.model("Sale", salesSchema);
                     resolve();
@@ -44,9 +44,9 @@ module.exports = function(mongoDBConnectionString){
 
         getAllSales: function(){
             return new Promise((resolve,reject)=>{
-                
+
                 Sale.find()
-                .populate("Sale") 
+                .populate("Sale")
                 .exec()
                 .then((sales)=>{
                     resolve(sales);
@@ -73,10 +73,10 @@ module.exports = function(mongoDBConnectionString){
 
             })
         },
-        
+
         updateSaleById: function(id, data){
             return new Promise((resolve,reject)=>{
-                Sale.updateOne({_id: id}, 
+                Sale.updateOne({_id: id},
                 {
                     $set: data
                 }).exec()
@@ -100,8 +100,6 @@ module.exports = function(mongoDBConnectionString){
                     reject(err);
                 });
             });
-        }
-
-        //Finish        
+        }     
     }
 }
